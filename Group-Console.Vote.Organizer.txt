@@ -1,0 +1,191 @@
+/**
+ * Bombuhay, John David
+ * Capati, Chase Zedrik V.
+ * BSCS
+ */
+using System;
+
+namespace PLFinal
+{
+    class Program
+    {
+        static int TableWidth = 71;
+
+        static void Main(string[] args)
+        {
+            /**
+             * Content of
+             * the Table
+             */
+            int a1, b1, c1, d1;
+            int a2, b2, c2, d2;
+            int a3, b3, c3, d3;
+            int a4, b4, c4, d4;
+            int a5, b5, c5, d5;
+            char answer;
+
+            for (var i = 0; i < 1000; i++)
+            {
+                a1 = IntUtil.Random(1, 500); b1 = IntUtil.Random(1, 500); c1 = IntUtil.Random(1, 500); d1 = IntUtil.Random(1, 500);
+                a2 = IntUtil.Random(1, 500); b2 = IntUtil.Random(1, 500); c2 = IntUtil.Random(1, 500); d2 = IntUtil.Random(1, 500);
+                a3 = IntUtil.Random(1, 500); b3 = IntUtil.Random(1, 500); c3 = IntUtil.Random(1, 500); d3 = IntUtil.Random(1, 500);
+                a4 = IntUtil.Random(1, 500); b4 = IntUtil.Random(1, 500); c4 = IntUtil.Random(1, 500); d4 = IntUtil.Random(1, 500);
+                a5 = IntUtil.Random(1, 500); b5 = IntUtil.Random(1, 500); c5 = IntUtil.Random(1, 500); d5 = IntUtil.Random(1, 500);
+                int ta1, ta2, ta3, ta4;
+                double p1, p2, p3, p4, tnV, fp1, fp2, fp3, fp4;
+                /**
+                 * Computation of the
+                 * Table
+                 */
+                ta1 = a1 + a2 + a3 + a4 + a5;
+                ta2 = b1 + b2 + b3 + b4 + b5;
+                ta3 = c1 + c2 + c3 + c4 + c5;
+                ta4 = d1 + d2 + d3 + d4 + d5;
+                tnV = ta1 + ta2 + ta3 + ta4;
+                p1 = ta1 / tnV;
+                p2 = ta2 / tnV;
+                p3 = ta3 / tnV;
+                p4 = ta4 / tnV;
+                fp1 = p1 * 100;
+                fp2 = p2 * 100;
+                fp3 = p3 * 100;
+                fp4 = p4 * 100;
+
+                /**
+                 * Display of the
+                 * whole table
+                 */
+                Console.Clear();
+                PrintLine();
+                PrintRow("Precinct", "Candidate A", "Candidate B", "Candidate C", "Candidate D");
+                PrintLine();
+                PrintRow("1", a1 + "", b1 + "", c1 + "", d1 + "");
+                PrintRow("2", a2 + "", b2 + "", c2 + "", d2 + "");
+                PrintRow("3", a3 + "", b3 + "", c3 + "", d3 + "");
+                PrintRow("4", a4 + "", b4 + "", c4 + "", d4 + "");
+                PrintRow("5", a5 + "", b5 + "", c5 + "", d5 + "");
+                PrintLine();
+                //Total
+                PrintRow("Total", ta1 + " votes", ta2 + " votes", ta3 + " votes", ta4 + " votes");
+                PrintLine();
+                //Percentage
+                PrintRow("Percentage", fp1.ToString("0.00") + "%", fp2.ToString("0.00") + "%", fp3.ToString("0.00") + "%", fp4.ToString("0.00") + "%");
+                PrintLine();
+                /**
+                 * Print Message
+                 * Code Here
+                 */
+                Console.WriteLine("");
+                Console.WriteLine("");
+                if (fp1 >= 50.00)
+                    Console.WriteLine("Candidate A is the Winner.");
+                else if (fp2 >= 50.00)
+                    Console.WriteLine("Candidate B is the Winner.");
+                else if (fp3 >= 50.00)
+                    Console.WriteLine("Candidate C is the Winner.");
+                else if (fp4 >= 50.00)
+                    Console.WriteLine("Candidate D is the Winner.");
+                else if (fp1 > fp3 && fp1 > fp4 && fp2 > fp3 && fp2 > fp4)
+                    Console.WriteLine("There is a Run-Off between Candidate A and B.");
+                else if (fp1 > fp2 && fp1 > fp4 && fp3 > fp2 && fp3 > fp4)
+                    Console.WriteLine("There is a Run-Off between Candidate A and C.");
+                else if (fp1 > fp2 && fp1 > fp3 && fp4 > fp2 && fp4 > fp3)
+                    Console.WriteLine("There is a Run-Off between Candidate A and D.");
+                else if (fp2 > fp1 && fp2 > fp4 && fp3 > fp1 && fp3 > fp4)
+                    Console.WriteLine("There is a Run-Off between Candidate B and C.");
+                else if (fp2 > fp1 && fp2 > fp3 && fp4 > fp1 && fp4 > fp3)
+                    Console.WriteLine("There is a Run-Off between Candidate B and D.");
+                else if (fp3 > fp1 && fp3 > fp2 && fp4 > fp1 && fp4 > fp2)
+                    Console.WriteLine("There is a Run-Off between Candidate C and D.");
+                else
+                    Console.WriteLine("");
+                /**
+                 * Loop: Try Again?
+                 */
+                //cout << "\n\nType 'Y' for Yes and 'N' for No";
+                Console.WriteLine("");
+                Console.WriteLine("\n\n[Y = Yes / N = No]");
+                Console.WriteLine("\nDo you want to do another simulation?: ");
+                answer = Convert.ToChar(Console.ReadLine());
+
+                if (answer == 'Y' || answer == 'y')
+                {
+                    Console.Clear();
+                    continue;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        public static class IntUtil
+        {
+            /**
+             * Random Number
+             * Generator
+             */
+
+            private static Random random;
+
+            private static void Init()
+            {
+                if (random == null) random = new Random();
+            }
+
+            public static int Random(int min, int max)
+            {
+                Init();
+                return random.Next(min, max);
+            }
+        }
+
+        static void PrintLine()
+        {
+            /**
+            * Line of the
+            * Row
+            */
+
+            Console.WriteLine(new string('-', TableWidth));
+        }
+
+        static void PrintRow(params string[] columns)
+        {
+            /**
+            * Vertical line of
+            * the columns
+            */
+
+            int width = (TableWidth - columns.Length) / columns.Length;
+            string row = "|";
+
+            foreach (string column in columns)
+            {
+                row += AlignCenter(column, width) + "|";
+            }
+
+            Console.WriteLine(row);
+        }
+
+        static string AlignCenter(string text, int width)
+        {
+            /**
+            * Cell of the
+            * Table
+            */
+
+            text = text.Length > width ? text.Substring(0, width - 3) + "..." : text;
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return new string(' ', width);
+            }
+            else
+            {
+                return text.PadRight(width - (width - text.Length) / 2).PadLeft(width);
+            }
+        }
+    }
+}

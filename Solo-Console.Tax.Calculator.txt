@@ -1,0 +1,227 @@
+/**
+ * John David Bombuhay 
+ *BSCS1
+ */
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+    long long int PD = 50000, numD = 0, count = 0, tin, temp;
+    float ADE, inc, TT, TE, Total;
+    string fullName, civilS;
+    char answer, civilSC;
+    int TaxTable(); int Computation();
+    
+int main()
+{
+    /**
+     * @param PD        Personal Deduction
+     * @param ADE       Additional Deduction / Exemption
+     * @param numD      Number of Dependents
+     * @param tin       Tax Identification Number
+     * @param inc       Income
+     * @param TT        Tax Table
+     * @param TE        Total Exemption
+     * @param Total     Total Annual Income
+     * @param answer    Another Transaction
+     * @param count		Digit Counting
+     * @param temp		Temporary Tin holder for count
+     * @param civilSC	Civil Status Choice
+     */
+    
+    while (true)
+    {
+        /**
+          * Input Requirements
+          */
+        cout << "Kindly fill-up the following\n\nName: ";
+        getline(cin, fullName);
+
+    StartAgain:
+        cout << "Tax Identification Number: ";
+        cin >> tin;
+
+		/**
+		  * Increment and remove last digit of 'temp'
+		  */
+		temp = tin;
+		count = 0;
+		while (temp != 0)
+		{
+			count++;
+			temp /= 10;
+		}
+
+        if (count != 9)
+        {
+        	system("cls");
+            cout << "Kindly fill-up the following\n\nName: " << fullName;
+            cin.clear();
+            cin.ignore(5, '\n');
+            // Input again if TIN is != to 9 digits
+            cout << "\n\nTIN should be only 9 digits\n";
+            goto StartAgain;
+        }
+
+        system("cls");
+        cout << "Kindly fill-up the following\n\nName: " << fullName;
+        cout << "\nTax Identification Number: " << fixed << tin;
+    RetryAgain:
+        cout << "\nGross Income: ";
+        cin >> inc;
+        if(cin.fail())
+        {
+            cin.clear();
+            cin.ignore(5, '\n');
+            cout << "Input must be in numbers only!" << endl;
+      		goto RetryAgain;
+        }
+        system("cls");        
+        cout << "Kindly fill-up the following\n\nName: " << fullName;
+        cout << "\nTax Identification Number: " << fixed << tin;
+        cout << "\nGross Income: " << fixed << setprecision(2) << inc << endl;
+        
+	SkipCivilStatus:
+        cout << "[(0) Single / (1) Married / (2) Head of Family]";
+        cout << "\nCivil Status: ";
+      		cin >> civilSC;
+
+
+        /**
+          * Function 1
+          * Personal Deduction & Additional Deduction / Exemption
+          */
+        switch (civilSC)
+        {
+        	case '0':
+        		civilS = "Single";
+        		goto SkipFunctionTwo;
+        	case '1':
+        		civilS = "Married";
+        		break;
+        	case '2':
+        		civilS = "Head of Family";
+        		break;
+        	default:
+        		system("cls");
+		        cout << "Kindly fill-up the following\n\nName: " << fullName;
+		        cout << "\nTax Identification Number: " << fixed << tin;
+		        cout << "\nGross Income: " << fixed << setprecision(2) << inc;
+        		cout << "\n\nInvalid Civil Status Choice, try again\n";
+        		goto SkipCivilStatus;
+		}
+
+        system("cls");
+        cout << "Kindly fill-up the following\n\nName: " << fullName;
+        cout << "\nTax Identification Number: " << fixed << tin;
+        cout << "\nGross Income: " << fixed << setprecision(2) << inc;
+        cout << "\nCivil Status: " << civilS;
+
+    SkipDependents:
+        cout << "\nNumber of your dependent(s): ";
+        cin >> numD;
+
+        if (numD > 4 || numD < 0)
+        {
+        	system("cls");
+	        cout << "Kindly fill-up the following\n\n";
+	        cout << "Name: " << fullName;
+	        cout << "\nTax Identification Number: " << tin;
+        	cout << "\nGross Income: " << inc;
+	        cout << "\nCivil Status: " << civilS;
+	        cout << "\n\nMaximum of (4) dependents";
+	        goto SkipDependents;
+		}
+
+    SkipFunctionTwo:
+   	 	Computation();
+   	 	
+   	 	inc = Total;
+   	 	
+   	 	TaxTable();
+
+
+        if (Total <= 0)
+		{
+        	Total = 0;
+		}
+		
+        /**
+          * Final Output
+          */
+        system("cls");
+        cout << "Name: " << fullName;
+        cout << "\nTax Identification Number: " << fixed << tin;
+        cout << "\nCivil Status: " << civilS;
+        cout << "\nGross Income: " << fixed << setprecision(2) << inc;
+        cout << "\nTotal Taxable Income: " << fixed << setprecision(2) << Total;
+        cout << "\nTotal Exemption: " << fixed << setprecision(2) << TE;
+        cout << "\nTax Due: " << fixed << setprecision(2) << TT;
+        
+        /**
+          * Loop: Try Again?
+          */
+        //cout << "\n\nType 'Y' for Yes and 'N' for No";
+        cout << "\n\n[Y = Yes / N = No]";
+        cout << "\nDo you want to do another calculation: ";
+			cin >> answer;
+        
+    	if (answer == 'Y' || answer == 'y'){
+     	cin.ignore(256, '\n');
+    	system("cls");
+    	continue;
+		} else {
+		break;
+		}
+    }
+}
+// EOF
+
+int Computation()
+{
+	    /**
+          * Function
+          * Computation
+          */
+    	if(inc <= 250000){
+    		goto SkipCC;
+		}
+        ADE = (25000 * numD);
+        TE = PD + ADE;
+    SkipCC:
+        Total = inc - TE;
+}
+
+int TaxTable()
+{
+  		/**
+          * Function
+          * Tax Table Computation
+          */
+        if(inc <= 250000)
+		{
+        	return TT = 0;
+        }
+		else if(inc >= 250000 && inc <= 400000)
+		{
+        	return TT = (inc - 250000) * 0.15;
+        }
+		else if(inc >= 400000 && inc <= 800000)
+		{
+        	return TT = (((inc - 400000)  * 0.20) + 22500);
+        }
+		else if(inc >= 800000 && inc <= 2000000)
+		{
+        	return TT = (((inc - 800000)*0.25)+102500);
+        }
+		else if(inc >= 2000000 && inc <= 5000000)
+		{
+        	return TT = (((inc - 2000000)*0.30) + 402500);
+        }
+		else if(inc >= 5000000)
+		{
+        	return TT = (((inc - 5000000) *0.35) + 1302500);
+     	}
+     	
+}
